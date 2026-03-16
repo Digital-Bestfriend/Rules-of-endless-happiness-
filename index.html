@@ -139,51 +139,35 @@
 
     <div id="message"></div>
 
-    <script>
-        // Функция звука
-        function playSfx(file) {
-            const audio = new Audio('sound/' + file);
-            audio.volume = 0.4;
-            audio.play().catch(() => {}); // Игнорируем ошибки, если браузер блокирует
-        }
+    function verify() {
+    const selected = Array.from(document.querySelectorAll('.cell.selected')).map(el => el.dataset.id).sort();
+    const msg = document.getElementById('message');
+    const body = document.getElementById('body');
+    
+    // Твои правильные ID
+    const correctSolution = ['1', '3', '7', '8'].sort(); 
 
-        function toggle(el) {
-            el.classList.toggle('selected');
-            playSfx('click.mp3');
-        }
+    const isCorrect = selected.length === correctSolution.length && 
+                      selected.every((val, index) => val === correctSolution[index]);
 
-        function verify() {
-            const selected = Array.from(document.querySelectorAll('.cell.selected')).map(el => el.dataset.id).sort();
-            const msg = document.getElementById('message');
-            const body = document.getElementById('body');
-            
-            // Задай здесь ID правильных картинок
-            const correctSolution = ['1', '3', '7', '8'].sort(); 
-
-            const isCorrect = selected.length === correctSolution.length && 
-                              selected.every((val, index) => val === correctSolution[index]);
-
-            if (isCorrect) {
-                playSfx('success.mp3');
-                msg.style.color = "green";
-                msg.innerText = "ДРУЖБА ПОДТВЕРЖДЕНА. ВХОД...";
-                setTimeout(() => {
-                    window.location.href = "main.html";
-                }, 1500);
-            } else {
-                // Эффект ошибки
-                playSfx('error.mp3'); // Здесь должен быть звук треска/помех
-                body.classList.add('glitch');
-                msg.style.color = "red";
-                msg.innerText = "ОШИБКА. ВЫ НЕ ВИДИТЕ РАДОСТИ. ПОПРОБУЙТЕ СНОВА.";
-                
-                // Убираем эффект через 200мс
-                setTimeout(() => {
-                    body.classList.remove('glitch');
-                    document.querySelectorAll('.cell').forEach(c => c.classList.remove('selected'));
-                }, 2500); // 2.5 секунды, чтобы пользователь успел осознать "наказание"
-            }
-        }
-    </script>
-</body>
-</html>
+    if (isCorrect) {
+        playSfx('success.mp3');
+        msg.style.color = "green";
+        msg.innerText = "ДРУЖБА ПОДТВЕРЖДЕНА. ВХОД...";
+        setTimeout(() => {
+            window.location.href = "main.html";
+        }, 1500);
+    } else {
+        // Эффект ошибки (1.5 секунды)
+        playSfx('error.mp3'); 
+        body.classList.add('glitch');
+        msg.style.color = "red";
+        msg.innerText = "ОШИБКА. ВЫ НЕ ВИДИТЕ РАДОСТИ. ПОПРОБУЙТЕ СНОВА.";
+        
+        // Убираем эффект ровно через 1500мс
+        setTimeout(() => {
+            body.classList.remove('glitch');
+            document.querySelectorAll('.cell').forEach(c => c.classList.remove('selected'));
+        }, 1500); 
+    }
+}
