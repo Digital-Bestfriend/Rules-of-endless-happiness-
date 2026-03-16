@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>АВТОРИЗАЦИЯ // ЦЕНТРАЛЬНЫЙ ТЕРМИНАЛ</title>
+    <title>АВТОРИЗАЦИЯ // ЦЕНТРАЛЬНЫЙ УЗЕЛ</title>
     <style>
         body {
             background-color: #ffffff;
@@ -15,6 +15,23 @@
             min-height: 100vh;
             margin: 0;
             text-transform: uppercase;
+            overflow: hidden; /* Чтобы при тряске не появлялись полосы прокрутки */
+        }
+
+        /* Эффект помех (Glitch) */
+        .glitch {
+            animation: glitch-anim 0.2s infinite;
+            filter: contrast(200%) brightness(150%);
+            background-color: #f0f0f0;
+        }
+
+        @keyframes glitch-anim {
+            0% { transform: translate(0); }
+            20% { transform: translate(-5px, 5px); filter: hue-rotate(90deg); }
+            40% { transform: translate(5px, -5px); }
+            60% { transform: translate(-5px, -2px); }
+            80% { transform: translate(2px, 2px); }
+            100% { transform: translate(0); }
         }
 
         .header {
@@ -29,6 +46,7 @@
             padding: 20px;
             width: 320px;
             background: #f9f9f9;
+            transition: transform 0.1s;
         }
 
         .instruction {
@@ -95,16 +113,16 @@
         }
     </style>
 </head>
-<body>
+<body id="body">
 
     <div class="header">ЦЕНТРАЛЬНЫЙ УЗЕЛ // АВТОРИЗАЦИЯ</div>
 
-    <div class="captcha-box">
+    <div class="captcha-box" id="captcha">
         <div class="instruction">
             ВЫБЕРИТЕ ВСЕ ИЗОБРАЖЕНИЯ, ГДЕ ЛЮДИ <br><strong>ДЕЙСТВИТЕЛЬНО СЧАСТЛИВЫ</strong>
         </div>
         
-        <div class="grid" id="grid">
+        <div class="grid">
             <div class="cell" onclick="toggle(this)" data-id="1" style="background-image: url('img/1.jpg')"></div>
             <div class="cell" onclick="toggle(this)" data-id="2" style="background-image: url('img/2.jpg')"></div>
             <div class="cell" onclick="toggle(this)" data-id="3" style="background-image: url('img/3.jpg')"></div>
@@ -122,30 +140,48 @@
     <div id="message"></div>
 
     <script>
+        // Функция звука
+        function playSfx(file) {
+            const audio = new Audio('sound/' + file);
+            audio.volume = 0.4;
+            audio.play().catch(() => {}); // Игнорируем ошибки, если браузер блокирует
+        }
+
         function toggle(el) {
             el.classList.toggle('selected');
+            playSfx('click.mp3');
         }
 
         function verify() {
             const selected = Array.from(document.querySelectorAll('.cell.selected')).map(el => el.dataset.id).sort();
             const msg = document.getElementById('message');
+            const body = document.getElementById('body');
             
-            // Задай здесь ID картинок, которые считаются правильными
+            // Задай здесь ID правильных картинок
             const correctSolution = ['1', '3', '7', '8'].sort(); 
 
             const isCorrect = selected.length === correctSolution.length && 
                               selected.every((val, index) => val === correctSolution[index]);
 
             if (isCorrect) {
+                playSfx('success.mp3');
                 msg.style.color = "green";
                 msg.innerText = "ДРУЖБА ПОДТВЕРЖДЕНА. ВХОД...";
                 setTimeout(() => {
                     window.location.href = "main.html";
                 }, 1500);
             } else {
+                // Эффект ошибки
+                playSfx('error.mp3'); // Здесь должен быть звук треска/помех
+                body.classList.add('glitch');
                 msg.style.color = "red";
                 msg.innerText = "ОШИБКА. ВЫ НЕ ВИДИТЕ РАДОСТИ. ПОПРОБУЙТЕ СНОВА.";
-                document.querySelectorAll('.cell').forEach(c => c.classList.remove('selected'));
+                
+                // Убираем эффект через 200мс
+                setTimeout(() => {
+                    body.classList.remove('glitch');
+                    document.querySelectorAll('.cell').forEach(c => c.classList.remove('selected'));
+                }, 2500); // 2.5 секунды, чтобы пользователь успел осознать "наказание"
             }
         }
     </script>
