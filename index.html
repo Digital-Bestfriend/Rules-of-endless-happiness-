@@ -2,8 +2,10 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>АВТОРИЗАЦИЯ // ЦЕНТРАЛЬНЫЙ УЗЕЛ</title>
     <style>
+        /* Стерильный стиль А11 */
         body {
             background-color: #ffffff;
             color: #1a1a1a;
@@ -15,22 +17,23 @@
             min-height: 100vh;
             margin: 0;
             text-transform: uppercase;
-            overflow: hidden; /* Чтобы при тряске не появлялись полосы прокрутки */
+            overflow: hidden; /* Чтобы не дергалась полоса прокрутки при глюке */
+            transition: background-color 0.1s;
         }
 
         /* Эффект помех (Glitch) */
         .glitch {
-            animation: glitch-anim 0.2s infinite;
-            filter: contrast(200%) brightness(150%);
-            background-color: #f0f0f0;
+            animation: glitch-anim 0.15s infinite;
+            filter: contrast(300%) brightness(120%) invert(5%);
+            background-color: #f0f0f0 !important;
         }
 
         @keyframes glitch-anim {
             0% { transform: translate(0); }
-            20% { transform: translate(-5px, 5px); filter: hue-rotate(90deg); }
-            40% { transform: translate(5px, -5px); }
-            60% { transform: translate(-5px, -2px); }
-            80% { transform: translate(2px, 2px); }
+            20% { transform: translate(-8px, 4px) skewX(10deg); }
+            40% { transform: translate(8px, -4px) skewY(-5deg); }
+            60% { transform: translate(-10px, -2px); filter: hue-rotate(180deg); }
+            80% { transform: translate(4px, 6px); }
             100% { transform: translate(0); }
         }
 
@@ -46,7 +49,7 @@
             padding: 20px;
             width: 320px;
             background: #f9f9f9;
-            transition: transform 0.1s;
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.05);
         }
 
         .instruction {
@@ -55,6 +58,7 @@
             padding: 15px;
             font-size: 14px;
             margin-bottom: 10px;
+            line-height: 1.4;
         }
 
         .grid {
@@ -72,10 +76,17 @@
             position: relative;
             background-size: cover;
             background-position: center;
+            filter: grayscale(100%); /* Сделаем картинки ЧБ для стиля */
+            transition: filter 0.3s;
+        }
+
+        .cell:hover {
+            filter: grayscale(0%);
         }
 
         .cell.selected {
             border-color: #00ff00;
+            filter: grayscale(0%);
         }
 
         .cell.selected::after {
@@ -87,18 +98,21 @@
             color: #fff;
             font-size: 12px;
             padding: 2px 5px;
+            font-weight: bold;
         }
 
         button {
             width: 100%;
             margin-top: 15px;
-            padding: 10px;
+            padding: 12px;
             background: #1a1a1a;
             color: #fff;
             border: none;
             cursor: pointer;
             font-family: 'Courier New', monospace;
             font-weight: bold;
+            letter-spacing: 1px;
+            transition: background 0.2s;
         }
 
         button:hover {
@@ -110,6 +124,7 @@
             font-size: 10px;
             text-align: center;
             height: 12px;
+            letter-spacing: 1px;
         }
     </style>
 </head>
@@ -139,35 +154,55 @@
 
     <div id="message"></div>
 
-    function verify() {
-    const selected = Array.from(document.querySelectorAll('.cell.selected')).map(el => el.dataset.id).sort();
-    const msg = document.getElementById('message');
-    const body = document.getElementById('body');
-    
-    // Твои правильные ID
-    const correctSolution = ['1', '3', '7', '8'].sort(); 
+    <script>
+        // Звуковой движок
+        function playSfx(file) {
+            const audio = new Audio('sound/' + file);
+            audio.volume = 0.4;
+            audio.play().catch(() => {
+                // Браузеры блокируют автозвук до первого клика
+            });
+        }
 
-    const isCorrect = selected.length === correctSolution.length && 
-                      selected.every((val, index) => val === correctSolution[index]);
+        function toggle(el) {
+            el.classList.toggle('selected');
+            playSfx('click.mp3');
+        }
 
-    if (isCorrect) {
-        playSfx('success.mp3');
-        msg.style.color = "green";
-        msg.innerText = "ДРУЖБА ПОДТВЕРЖДЕНА. ВХОД...";
-        setTimeout(() => {
-            window.location.href = "main.html";
-        }, 1500);
-    } else {
-        // Эффект ошибки (1.5 секунды)
-        playSfx('error.mp3'); 
-        body.classList.add('glitch');
-        msg.style.color = "red";
-        msg.innerText = "ОШИБКА. ВЫ НЕ ВИДИТЕ РАДОСТИ. ПОПРОБУЙТЕ СНОВА.";
-        
-        // Убираем эффект ровно через 1500мс
-        setTimeout(() => {
-            body.classList.remove('glitch');
-            document.querySelectorAll('.cell').forEach(c => c.classList.remove('selected'));
-        }, 1500); 
-    }
-}
+        function verify() {
+            const selected = Array.from(document.querySelectorAll('.cell.selected'))
+                                  .map(el => el.dataset.id)
+                                  .sort();
+            const msg = document.getElementById('message');
+            const body = document.getElementById('body');
+            
+            // ПРАВИЛЬНЫЙ ОТВЕТ (измени ID на свои)
+            const correctSolution = ['1', '3', '7', '8'].sort(); 
+
+            const isCorrect = selected.length === correctSolution.length && 
+                              selected.every((val, index) => val === correctSolution[index]);
+
+            if (isCorrect) {
+                playSfx('success.mp3');
+                msg.style.color = "#00bb00";
+                msg.innerText = "ДРУЖБА ПОДТВЕРЖДЕНА. ВХОД...";
+                setTimeout(() => {
+                    window.location.href = "main.html";
+                }, 1500);
+            } else {
+                // Эффект ошибки на 1.5 секунды
+                playSfx('error.mp3'); 
+                body.classList.add('glitch');
+                msg.style.color = "#ff0000";
+                msg.innerText = "ОШИБКА. ВЫ НЕ ВИДИТЕ РАДОСТИ. ПОПРОБУЙТЕ СНОВА.";
+                
+                setTimeout(() => {
+                    body.classList.remove('glitch');
+                    // Сброс выбора
+                    document.querySelectorAll('.cell').forEach(c => c.classList.remove('selected'));
+                }, 1500); 
+            }
+        }
+    </script>
+</body>
+</html>
