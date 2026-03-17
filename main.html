@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ГЛАВНАЯ // ЦЕНТРАЛЬНЫЙ УЗЕЛ</title>
     <style>
-        /* Глобальный запрет взаимодействия с текстом */
+        /* Тотальный запрет выделения и взаимодействия с текстом */
         * {
             -webkit-user-select: none;
             -moz-user-select: none;
@@ -24,18 +24,21 @@
             align-items: center;
             min-height: 100vh;
             text-transform: uppercase;
-            overflow: hidden;
+            overflow-y: scroll; /* РАЗРЕШАЕМ ПРОКРУТКУ */
+            overflow-x: hidden;
+            letter-spacing: 1px;
         }
 
-        /* Защитный невидимый слой */
+        /* Защитный невидимый слой поверх всего */
         .shield {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 9999;
+            z-index: 1000;
             background: rgba(0,0,0,0);
+            pointer-events: none; /* Разрешаем клики, используем JS для защиты */
         }
 
         .top-bar {
@@ -45,17 +48,24 @@
             font-size: 10px;
             color: #ccc;
             display: flex;
-            justify-content: flex-end; /* Все элементы теперь справа */
+            justify-content: flex-end;
             gap: 30px;
             box-sizing: border-box;
-            letter-spacing: 1px;
+            background-color: #ffffff;
+            position: fixed;
+            top: 0;
+            z-index: 1010;
         }
 
         .content {
             margin-top: 150px;
             width: 80%;
-            max-width: 500px;
-            z-index: 100;
+            max-width: 600px;
+            z-index: 1005;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 100px; /* Отступ снизу */
         }
 
         .welcome-plaque {
@@ -64,12 +74,14 @@
             text-align: center;
             background-color: #ffffff;
             position: relative;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 60px;
         }
 
         .welcome-text {
             font-size: 22px;
             font-weight: bold;
-            letter-spacing: 1px;
             margin: 0;
         }
 
@@ -82,16 +94,71 @@
         }
 
         .happiness-index {
-            margin-top: 40px;
+            margin-bottom: 60px;
             font-size: 11px;
             color: #999;
             text-align: center;
             letter-spacing: 2px;
+            width: 100%;
+        }
+
+        /* Сетка для новых плашек */
+        .action-plates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Стили плашки (карточки) */
+        .action-plate {
+            border: 1px solid #e0e0e0;
+            padding: 25px;
+            background-color: #ffffff;
+            text-align: center;
+            text-decoration: none;
+            color: #1a1a1a;
+            cursor: pointer;
+            transition: background-color 0.2s, box-shadow 0.2s, border-color 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 160px;
+            box-sizing: border-box;
+            box-shadow: 5px 5px 0px rgba(0,0,0,0.02);
+            position: relative;
+            z-index: 1006; /* Выше щита */
+        }
+
+        .action-plate:hover {
+            background-color: #f9f9f9;
+            border-color: #aaa;
+            box-shadow: 8px 8px 0px rgba(0,0,0,0.03);
+        }
+
+        .action-plate:active {
+            transform: translate(2px, 2px);
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.01);
+        }
+
+        .action-plate .icon {
+            font-size: 24px;
+            color: #444;
+            margin-bottom: 20px;
+        }
+
+        .action-plate .title {
+            font-size: 11px;
+            line-height: 1.2;
+            text-align: center;
+            letter-spacing: 1px;
         }
 
         .blink {
             animation: blinker 2s linear infinite;
-            color: #00ff00; /* Зеленый огонек связи */
+            color: #00ff00;
         }
 
         @keyframes blinker {
@@ -99,7 +166,7 @@
         }
     </style>
 </head>
-<body>
+<body id="body">
 
     <noscript>
         <div style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #fff; color: #000; display: flex; align-items: center; justify-content: center; z-index: 100000; text-align: center; font-family: 'Courier New', monospace;">
@@ -123,16 +190,45 @@
         <div class="happiness-index">
             ВАШ ТЕКУЩИЙ УРОВЕНЬ СЧАСТЬЯ: 98.4%
         </div>
+
+        <div class="action-plates-grid">
+            
+            <a href="noise-properties.html" class="action-plate">
+                <span class="icon">🔊</span>
+                <span class="title">целительные свойства шума</span>
+            </a>
+
+            <a href="how-to-understand.html" class="action-plate">
+                <span class="icon">😃</span>
+                <span class="title">как понять, что ты счастлив?</span>
+            </a>
+
+            <a href="what-is-communicator.html" class="action-plate">
+                <span class="icon">📻</span>
+                <span class="title">что такое коммуникатор и почему он - твой друг?</span>
+            </a>
+
+            <a href="word-limit.html" class="action-plate">
+                <span class="icon">🎤</span>
+                <span class="title">почему лимит слов необходим?</span>
+            </a>
+
+            <a href="digital-bestfriend.html" class="action-plate">
+                <span class="icon">👤</span>
+                <span class="title">я - твой лучший цифровой друг, познакомимся поближе?</span>
+            </a>
+
+        </div>
     </div>
 
     <script>
-        // Блокировка контекстного меню
+        // ЗАЩИТА СРЕДЫ: Блокировка контекстного меню
         document.addEventListener('contextmenu', event => event.preventDefault());
 
-        // Блокировка перетаскивания
+        // ЗАЩИТА СРЕДЫ: Блокировка перетаскивания
         document.addEventListener('dragstart', event => event.preventDefault());
 
-        // Блокировка горячих клавиш (Ctrl+C, Ctrl+U, F12, Ctrl+S)
+        // ЗАЩИТА СРЕДЫ: Блокировка горячих клавиш (Ctrl+C, Ctrl+U, F12, Ctrl+S)
         document.onkeydown = function(e) {
             if(e.keyCode == 123 || 
                (e.ctrlKey && e.shiftKey && e.keyCode == 73) || 
