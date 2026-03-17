@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>АРХИВ // ЛИМИТ СЛОВ</title>
     <style>
-        /* Тотальная защита */
+        /* Тотальная защита среды */
         * {
             -webkit-user-select: none;
             -moz-user-select: none;
@@ -52,7 +52,6 @@
             margin-bottom: 100px;
         }
 
-        /* Заголовок в стиле Вики */
         .article-header {
             border-bottom: 1px solid #1a1a1a;
             margin-bottom: 25px;
@@ -72,14 +71,12 @@
             margin-top: 5px;
         }
 
-        /* Основной текст */
         .article-content {
             font-size: 14px;
             line-height: 1.8;
             text-align: justify;
         }
 
-        /* Кликабельное слово (сноска) */
         .reference-link {
             color: #0000ff;
             text-decoration: none;
@@ -94,13 +91,11 @@
             text-decoration: underline;
         }
 
-        /* Выделение по просьбе юзера */
         .highlight-bold-under {
             text-decoration: underline;
             font-weight: bold;
         }
 
-        /* Окно примечаний (Footnotes) */
         #notes-panel {
             display: none;
             margin-top: 40px;
@@ -128,6 +123,7 @@
             margin-top: 30px;
             font-size: 10px;
             color: #1a1a1a;
+            text-transform: uppercase;
             text-decoration: none;
             border: 1px solid #1a1a1a;
             padding: 5px 10px;
@@ -143,14 +139,14 @@
 <body>
 
     <div class="top-bar">
-        <span>АРХИВ ЦЕНТРАЛЬНОГО УЗЛА</span>
-        <span>ДОСТУП: РАЗРЕШЕН</span>
+        <span>АРХИВ ОБЪЕДИНЕННЫХ СЕКТОРОВ</span>
+        <span>ДОСТУП: ПОДТВЕРЖДЕН</span>
     </div>
 
     <div class="article-container">
         <header class="article-header">
             <h1>Лимит слов</h1>
-            <div class="article-meta">Материал из официальной библиотеки Дружбы</div>
+            <div class="article-meta">Материал из общеобразовательной программы Объединенных Секторов</div>
         </header>
 
         <main class="article-content">
@@ -173,8 +169,8 @@
 
         <div id="notes-panel">
             <strong>ПРИМЕЧАНИЯ:</strong>
-            <div class="note-item">[1] Отчет Сектора А11 №44-бис: "О корреляции вербальной активности и когнитивного распада". Исследование проводилось в течение 12 месяцев на группе лояльных друзей.</div>
-            <div class="note-item">[2] Статистический анализ "Шум как деструктивный фактор", отдел Биологического Контроля.</div>
+            <div class="note-item">[1] Отчет сектора №4 №44-бис: "О корреляции вербальной активности и когнитивного распада". Центральный архив Объединенных Секторов.</div>
+            <div class="note-item">[2] Статистический анализ "Шум как деструктивный фактор", Департамент Средового Мониторинга.</div>
         </div>
 
         <div class="footer-date">
@@ -185,7 +181,6 @@
     </div>
 
     <script>
-        // Функция для показа примечаний
         function toggleNotes() {
             const panel = document.getElementById('notes-panel');
             if (panel.style.display === 'block') {
