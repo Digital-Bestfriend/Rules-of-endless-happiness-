@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ГЛАВНАЯ // ЦЕНТРАЛЬНЫЙ УЗЕЛ</title>
     <style>
-        /* Тотальный запрет выделения и взаимодействия с текстом */
         * {
             -webkit-user-select: none;
             -moz-user-select: none;
@@ -24,12 +23,11 @@
             align-items: center;
             min-height: 100vh;
             text-transform: uppercase;
-            overflow-y: scroll; /* РАЗРЕШАЕМ ПРОКРУТКУ */
+            overflow-y: scroll;
             overflow-x: hidden;
             letter-spacing: 1px;
         }
 
-        /* Защитный невидимый слой поверх всего */
         .shield {
             position: fixed;
             top: 0;
@@ -38,7 +36,7 @@
             height: 100%;
             z-index: 1000;
             background: rgba(0,0,0,0);
-            pointer-events: none; /* Разрешаем клики, используем JS для защиты */
+            pointer-events: none;
         }
 
         .top-bar {
@@ -65,7 +63,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 100px; /* Отступ снизу */
+            margin-bottom: 100px;
         }
 
         .welcome-plaque {
@@ -85,7 +83,7 @@
             margin: 0;
         }
 
-        .smile {
+        .smile-main {
             display: block;
             margin-top: 20px;
             color: #1a1a1a;
@@ -99,61 +97,45 @@
             color: #999;
             text-align: center;
             letter-spacing: 2px;
-            width: 100%;
         }
 
-        /* Сетка для новых плашек */
         .action-plates-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 20px;
             width: 100%;
-            box-sizing: border-box;
         }
 
-        /* Стили плашки (карточки) */
         .action-plate {
             border: 1px solid #e0e0e0;
             padding: 25px;
             background-color: #ffffff;
-            text-align: center;
             text-decoration: none;
             color: #1a1a1a;
-            cursor: pointer;
-            transition: background-color 0.2s, box-shadow 0.2s, border-color 0.2s;
+            transition: all 0.2s;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
             min-height: 160px;
             box-sizing: border-box;
-            box-shadow: 5px 5px 0px rgba(0,0,0,0.02);
-            position: relative;
-            z-index: 1006; /* Выше щита */
         }
 
         .action-plate:hover {
             background-color: #f9f9f9;
-            border-color: #aaa;
-            box-shadow: 8px 8px 0px rgba(0,0,0,0.03);
-        }
-
-        .action-plate:active {
-            transform: translate(2px, 2px);
-            box-shadow: 3px 3px 0px rgba(0,0,0,0.01);
+            border-color: #1a1a1a;
         }
 
         .action-plate .icon {
-            font-size: 24px;
-            color: #444;
-            margin-bottom: 20px;
+            font-size: 20px;
+            margin-bottom: 15px;
+            font-weight: bold;
         }
 
         .action-plate .title {
-            font-size: 11px;
-            line-height: 1.2;
+            font-size: 10px;
+            line-height: 1.4;
             text-align: center;
-            letter-spacing: 1px;
         }
 
         .blink {
@@ -161,20 +143,16 @@
             color: #00ff00;
         }
 
-        @keyframes blinker {
-            50% { opacity: 0.2; }
-        }
+        @keyframes blinker { 50% { opacity: 0.2; } }
     </style>
 </head>
-<body id="body">
+<body>
 
     <noscript>
-        <div style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #fff; color: #000; display: flex; align-items: center; justify-content: center; z-index: 100000; text-align: center; font-family: 'Courier New', monospace;">
-            ОШИБКА ДОСТУПА. ВКЛЮЧИТЕ ПОДДЕРЖКУ СКРИПТОВ.
+        <div style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #fff; z-index: 100000; display: flex; align-items: center; justify-content: center; font-family: monospace;">
+            ERROR: ENVIRONMENT NOT SUPPORTED.
         </div>
     </noscript>
-
-    <div class="shield"></div>
 
     <div class="top-bar">
         <span>ЛИМИТ СЛОВ: 500/500</span>
@@ -184,7 +162,7 @@
     <div class="content">
         <div class="welcome-plaque">
             <h1 class="welcome-text">Добро пожаловать, Друг!</h1>
-            <span class="smile">[ :) ]</span>
+            <span class="smile-main">[ :) ]</span>
         </div>
 
         <div class="happiness-index">
@@ -193,28 +171,28 @@
 
         <div class="action-plates-grid">
             
-            <a href="noise-properties.html" class="action-plate">
+            <a href="noise.html" class="action-plate">
                 <span class="icon">🔊</span>
                 <span class="title">целительные свойства шума</span>
             </a>
 
-            <a href="how-to-understand.html" class="action-plate">
-                <span class="icon">😃</span>
+            <a href="happiness.html" class="action-plate">
+                <span class="icon">[ . ]</span>
                 <span class="title">как понять, что ты счастлив?</span>
             </a>
 
-            <a href="what-is-communicator.html" class="action-plate">
-                <span class="icon">📻</span>
+            <a href="communicator.html" class="action-plate">
+                <span class="icon">[ ◊ ]</span>
                 <span class="title">что такое коммуникатор и почему он - твой друг?</span>
             </a>
 
-            <a href="word-limit.html" class="action-plate">
-                <span class="icon">🎤</span>
+            <a href="limit.html" class="action-plate">
+                <span class="icon">🔇</span>
                 <span class="title">почему лимит слов необходим?</span>
             </a>
 
-            <a href="digital-bestfriend.html" class="action-plate">
-                <span class="icon">👤</span>
+            <a href="friend.html" class="action-plate">
+                <span class="icon">[ :) ]</span>
                 <span class="title">я - твой лучший цифровой друг, познакомимся поближе?</span>
             </a>
 
@@ -222,21 +200,10 @@
     </div>
 
     <script>
-        // ЗАЩИТА СРЕДЫ: Блокировка контекстного меню
-        document.addEventListener('contextmenu', event => event.preventDefault());
-
-        // ЗАЩИТА СРЕДЫ: Блокировка перетаскивания
-        document.addEventListener('dragstart', event => event.preventDefault());
-
-        // ЗАЩИТА СРЕДЫ: Блокировка горячих клавиш (Ctrl+C, Ctrl+U, F12, Ctrl+S)
-        document.onkeydown = function(e) {
-            if(e.keyCode == 123 || 
-               (e.ctrlKey && e.shiftKey && e.keyCode == 73) || 
-               (e.ctrlKey && e.keyCode == 85) || 
-               (e.ctrlKey && e.keyCode == 83) || 
-               (e.ctrlKey && e.keyCode == 67)) {
-                return false;
-            }
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('dragstart', e => e.preventDefault());
+        document.onkeydown = e => {
+            if(e.keyCode == 123 || (e.ctrlKey && (e.keyCode == 85 || e.keyCode == 83 || e.keyCode == 67 || (e.shiftKey && e.keyCode == 73)))) return false;
         };
     </script>
 </body>
