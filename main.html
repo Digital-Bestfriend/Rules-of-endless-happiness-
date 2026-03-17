@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ГЛАВНАЯ // ЦЕНТРАЛЬНЫЙ УЗЕЛ</title>
     <style>
-        /* Тотальный запрет выделения */
+        /* Глобальный запрет взаимодействия с текстом */
         * {
             -webkit-user-select: none;
             -moz-user-select: none;
@@ -24,9 +24,10 @@
             align-items: center;
             min-height: 100vh;
             text-transform: uppercase;
+            overflow: hidden;
         }
 
-        /* Защитный слой "щит" */
+        /* Защитный невидимый слой */
         .shield {
             position: fixed;
             top: 0;
@@ -39,71 +40,78 @@
 
         .top-bar {
             width: 100%;
-            padding: 10px;
-            border-bottom: 1px solid #eee;
+            padding: 15px 30px;
+            border-bottom: 1px solid #f0f0f0;
             font-size: 10px;
-            color: #aaa;
+            color: #ccc;
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end; /* Все элементы теперь справа */
+            gap: 30px;
             box-sizing: border-box;
+            letter-spacing: 1px;
         }
 
         .content {
-            margin-top: 100px;
+            margin-top: 150px;
             width: 80%;
-            max-width: 600px;
+            max-width: 500px;
             z-index: 100;
         }
 
-        /* Та самая плашка */
         .welcome-plaque {
-            border: 2px solid #1a1a1a;
-            padding: 40px;
+            border: 1px solid #1a1a1a;
+            padding: 50px 20px;
             text-align: center;
-            background-color: #fcfcfc;
+            background-color: #ffffff;
             position: relative;
-            box-shadow: 10px 10px 0px rgba(0,0,0,0.05);
         }
 
         .welcome-text {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             margin: 0;
         }
 
         .smile {
             display: block;
-            margin-top: 15px;
-            color: #555;
-            font-size: 18px;
+            margin-top: 20px;
+            color: #1a1a1a;
+            font-size: 20px;
+            font-weight: bold;
         }
 
-        .status-info {
-            margin-top: 50px;
-            font-size: 12px;
-            color: #888;
-            border-top: 1px solid #eee;
-            padding-top: 20px;
+        .happiness-index {
+            margin-top: 40px;
+            font-size: 11px;
+            color: #999;
+            text-align: center;
+            letter-spacing: 2px;
         }
 
         .blink {
-            animation: blinker 1.5s linear infinite;
+            animation: blinker 2s linear infinite;
+            color: #00ff00; /* Зеленый огонек связи */
         }
 
         @keyframes blinker {
-            50% { opacity: 0; }
+            50% { opacity: 0.2; }
         }
     </style>
 </head>
 <body>
 
+    <noscript>
+        <div style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #fff; color: #000; display: flex; align-items: center; justify-content: center; z-index: 100000; text-align: center; font-family: 'Courier New', monospace;">
+            ОШИБКА ДОСТУПА. ВКЛЮЧИТЕ ПОДДЕРЖКУ СКРИПТОВ.
+        </div>
+    </noscript>
+
     <div class="shield"></div>
 
     <div class="top-bar">
-        <span>СЕКТОР: А11 // СТАТУС: ЧИСТО</span>
         <span>ЛИМИТ СЛОВ: 500/500</span>
-        <span class="blink">● СВЯЗЬ УСТАНОВЛЕНА</span>
+        <span><span class="blink">●</span> СВЯЗЬ УСТАНОВЛЕНА</span>
     </div>
 
     <div class="content">
@@ -112,22 +120,24 @@
             <span class="smile">[ :) ]</span>
         </div>
 
-        <div class="status-info">
-            <p>> ВАШ ТЕКУЩИЙ УРОВЕНЬ СЧАСТЬЯ: <strong>98.4%</strong></p>
-            <p>> СЕГОДНЯШНЯЯ ЗАДАЧА: <strong>БЛАГОДАРНОСТЬ</strong></p>
-            <p>> НОВОСТИ: ВСЕ ПОКАЗАТЕЛИ В НОРМЕ. АНОМАЛИЙ НЕ ОБНАРУЖЕНО.</p>
+        <div class="happiness-index">
+            ВАШ ТЕКУЩИЙ УРОВЕНЬ СЧАСТЬЯ: 98.4%
         </div>
     </div>
 
     <script>
-        // Блокировка правой кнопки мыши
+        // Блокировка контекстного меню
         document.addEventListener('contextmenu', event => event.preventDefault());
 
-        // Блокировка горячих клавиш (Ctrl+C, Ctrl+U, F12)
+        // Блокировка перетаскивания
+        document.addEventListener('dragstart', event => event.preventDefault());
+
+        // Блокировка горячих клавиш (Ctrl+C, Ctrl+U, F12, Ctrl+S)
         document.onkeydown = function(e) {
-            if(event.keyCode == 123 || 
+            if(e.keyCode == 123 || 
                (e.ctrlKey && e.shiftKey && e.keyCode == 73) || 
                (e.ctrlKey && e.keyCode == 85) || 
+               (e.ctrlKey && e.keyCode == 83) || 
                (e.ctrlKey && e.keyCode == 67)) {
                 return false;
             }
