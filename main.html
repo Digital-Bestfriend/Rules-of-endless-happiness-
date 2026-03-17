@@ -1,1 +1,137 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ГЛАВНАЯ // ЦЕНТРАЛЬНЫЙ УЗЕЛ</title>
+    <style>
+        /* Тотальный запрет выделения */
+        * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            cursor: default;
+        }
 
+        body {
+            background-color: #ffffff;
+            color: #1a1a1a;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            text-transform: uppercase;
+        }
+
+        /* Защитный слой "щит" */
+        .shield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: rgba(0,0,0,0);
+        }
+
+        .top-bar {
+            width: 100%;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            font-size: 10px;
+            color: #aaa;
+            display: flex;
+            justify-content: space-between;
+            box-sizing: border-box;
+        }
+
+        .content {
+            margin-top: 100px;
+            width: 80%;
+            max-width: 600px;
+            z-index: 100;
+        }
+
+        /* Та самая плашка */
+        .welcome-plaque {
+            border: 2px solid #1a1a1a;
+            padding: 40px;
+            text-align: center;
+            background-color: #fcfcfc;
+            position: relative;
+            box-shadow: 10px 10px 0px rgba(0,0,0,0.05);
+        }
+
+        .welcome-text {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin: 0;
+        }
+
+        .smile {
+            display: block;
+            margin-top: 15px;
+            color: #555;
+            font-size: 18px;
+        }
+
+        .status-info {
+            margin-top: 50px;
+            font-size: 12px;
+            color: #888;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+
+        .blink {
+            animation: blinker 1.5s linear infinite;
+        }
+
+        @keyframes blinker {
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="shield"></div>
+
+    <div class="top-bar">
+        <span>СЕКТОР: А11 // СТАТУС: ЧИСТО</span>
+        <span>ЛИМИТ СЛОВ: 500/500</span>
+        <span class="blink">● СВЯЗЬ УСТАНОВЛЕНА</span>
+    </div>
+
+    <div class="content">
+        <div class="welcome-plaque">
+            <h1 class="welcome-text">Добро пожаловать, Друг!</h1>
+            <span class="smile">[ :) ]</span>
+        </div>
+
+        <div class="status-info">
+            <p>> ВАШ ТЕКУЩИЙ УРОВЕНЬ СЧАСТЬЯ: <strong>98.4%</strong></p>
+            <p>> СЕГОДНЯШНЯЯ ЗАДАЧА: <strong>БЛАГОДАРНОСТЬ</strong></p>
+            <p>> НОВОСТИ: ВСЕ ПОКАЗАТЕЛИ В НОРМЕ. АНОМАЛИЙ НЕ ОБНАРУЖЕНО.</p>
+        </div>
+    </div>
+
+    <script>
+        // Блокировка правой кнопки мыши
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        // Блокировка горячих клавиш (Ctrl+C, Ctrl+U, F12)
+        document.onkeydown = function(e) {
+            if(event.keyCode == 123 || 
+               (e.ctrlKey && e.shiftKey && e.keyCode == 73) || 
+               (e.ctrlKey && e.keyCode == 85) || 
+               (e.ctrlKey && e.keyCode == 67)) {
+                return false;
+            }
+        };
+    </script>
+</body>
+</html>
