@@ -17,7 +17,7 @@
             min-height: 100vh;
             margin: 0;
             text-transform: uppercase;
-            overflow: hidden; /* Чтобы не дергалась полоса прокрутки при глюке */
+            overflow: hidden; 
             transition: background-color 0.1s;
         }
 
@@ -49,7 +49,6 @@
             padding: 20px;
             width: 320px;
             background: #f9f9f9;
-            box-shadow: 0 0 0 1px rgba(0,0,0,0.05);
         }
 
         .instruction {
@@ -76,7 +75,7 @@
             position: relative;
             background-size: cover;
             background-position: center;
-            filter: grayscale(100%); /* Сделаем картинки ЧБ для стиля */
+            filter: grayscale(100%); 
             transition: filter 0.3s;
         }
 
@@ -112,11 +111,6 @@
             font-family: 'Courier New', monospace;
             font-weight: bold;
             letter-spacing: 1px;
-            transition: background 0.2s;
-        }
-
-        button:hover {
-            background: #333;
         }
 
         #message {
@@ -155,13 +149,10 @@
     <div id="message"></div>
 
     <script>
-        // Звуковой движок
         function playSfx(file) {
             const audio = new Audio('sound/' + file);
             audio.volume = 0.4;
-            audio.play().catch(() => {
-                // Браузеры блокируют автозвук до первого клика
-            });
+            audio.play().catch(() => {});
         }
 
         function toggle(el) {
@@ -176,7 +167,7 @@
             const msg = document.getElementById('message');
             const body = document.getElementById('body');
             
-            // ПРАВИЛЬНЫЙ ОТВЕТ (измени ID на свои)
+            // Замени эти ID на правильные (те, что должны быть выбраны)
             const correctSolution = ['1', '3', '7', '8'].sort(); 
 
             const isCorrect = selected.length === correctSolution.length && 
@@ -190,7 +181,7 @@
                     window.location.href = "main.html";
                 }, 1500);
             } else {
-                // Эффект ошибки на 1.5 секунды
+                // Эффект ошибки (1.7 секунды)
                 playSfx('error.mp3'); 
                 body.classList.add('glitch');
                 msg.style.color = "#ff0000";
@@ -198,9 +189,9 @@
                 
                 setTimeout(() => {
                     body.classList.remove('glitch');
-                    // Сброс выбора
+                    // Сброс всех галочек после завершения глитча
                     document.querySelectorAll('.cell').forEach(c => c.classList.remove('selected'));
-                }, 1500); 
+                }, 1700); 
             }
         }
     </script>
